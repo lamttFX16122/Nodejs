@@ -1,0 +1,24 @@
+{
+    "dependencies": {
+        "nodemon": "^2.0.19"
+    },
+    "name": "node",
+    "description": "Nodejs tutorial",
+    "version": "1.0.0",
+    "main": "app.js",
+    "devDependencies": {},
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "nodemon app.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/lamttFX16122/Nodejs.git"
+    },
+    "author": "thanhlam",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/lamttFX16122/Nodejs/issues"
+    },
+    "homepage": "https://github.com/lamttFX16122/Nodejs#readme"
+}
