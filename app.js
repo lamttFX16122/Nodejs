@@ -8,6 +8,7 @@ app.use((req, res, next) => {
 })
 app.use((req, res, next) => {
     console.log("In the second Middleware!");
+    res.send('<h1>Hello from Express.js</h1>');
 })
 const server = http.createServer(app);
 server.listen(8099);
