@@ -1,5 +1,6 @@
-const http = require('http');
+// const http = require('http');
 const express = require('express');
+const path = require('path');
 const bodyParser = require('body-parser');
 const adminRouter = require('./routes/admin');
 const shopRouter = require('./routes/shop');
@@ -10,7 +11,7 @@ app.use('/admin', adminRouter);
 app.use(shopRouter);
 
 app.use((req, res) => {
-    res.status(404).send('<h1>Page not found</h1>')
-})
-const server = http.createServer(app);
-server.listen(8099);
+        res.status(404).sendFile(path.join(__dirname, 'views', '404.html'))
+    })
+    // const server = http.createServer(app);
+app.listen(8099);
