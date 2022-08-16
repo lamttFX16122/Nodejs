@@ -1,7 +1,7 @@
 const express = require('express');
 const route = express.Router();
 route.get('/add-product', (req, res, next) => {
-    var str = '<form action="/product" method="POST">';
+    var str = '<form action="/admin/product" method="POST">';
     str += '<input type="text" name="title" />';
     str += '<button type="SUBMIT">Add Product</button>';
     str += '</form>';
