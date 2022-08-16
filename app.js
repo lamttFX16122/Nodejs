@@ -11,12 +11,11 @@ app.use('/add-product', (req, res, next) => {
     str += '</form>';
     res.send(str);
 })
-app.use('/product', (req, res) => {
+app.post('/product', (req, res) => {
     console.log(req.body)
     res.redirect("/");
 })
 app.use('/', (req, res, next) => {
-    console.log("In the second Middleware!");
     res.send('<h1>Hello from Express.js</h1>');
 })
 const server = http.createServer(app);
