@@ -15,7 +15,7 @@ app.use('/admin', adminRouter.route);
 app.use(shopRouter);
 
 app.use((req, res) => {
-        res.status(404).sendFile(path.join(__dirname, 'views', '404.html'))
+        res.render('404.pug', { pageTitle: 'Page Not Found' })
     })
     // const server = http.createServer(app);
 app.listen(8099);
