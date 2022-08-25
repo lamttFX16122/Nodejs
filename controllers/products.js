@@ -1,5 +1,5 @@
-// import productModel from '../models/product';
 const productModel = require('../models/product');
+
 exports.getAddProduct = (req, res, next) => {
     res.render('add-product', {
         pageTitle: 'Add Product',
@@ -11,6 +11,7 @@ exports.getAddProduct = (req, res, next) => {
 
 exports.postAddProduct = (req, res) => {
     const product = new productModel(req.body.title);
+    console.log('Controller: ' + JSON.stringify(product))
     product.save();
     res.redirect("/");
 }
