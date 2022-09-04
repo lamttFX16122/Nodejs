@@ -1,23 +1,22 @@
 const path = require('path');
 const fs = require('fs');
+const p = path.join(path.dirname(require.main.filename), 'data', 'products.json');
 
-
-//  path.dirname(require.main.filename);
-// let product = [];
+const getProductFromFile = cb => {
+    fs.readFile(p, (err, value) => {
+        if (value == '') {
+            cb([]);
+        } else {
+            cb(JSON.parse(value));
+        }
+    });
+}
 module.exports = class Product {
     constructor(t) {
         this.title = t;
     }
-
     save() {
-        const p = path.join(path.dirname(require.main.filename), 'data', 'products.json');
-        let prod = [];
-        // console.log("reeeeeeeeeeeeeeee: " + prod)
-        // console.log('data controller: ' + JSON.stringify(this))
-        fs.readFile(p, (err, value) => {
-            if (!err) {
-                prod = JSON.parse(value);
-            }
+        getProductFromFile(prod => {
             prod.push(this);
             fs.writeFile(p, JSON.stringify(prod), (err) => {
                 console.log(err);
@@ -26,12 +25,6 @@ module.exports = class Product {
     }
 
     static fetchProduct(cb) {
-        const p = path.join(path.dirname(require.main.filename), 'data', 'products.json');
-        fs.readFile(p, (err, value) => {
-            if (err) {
-                return cb([]);
-            }
-            cb(JSON.parse(value));
-        });
+        getProductFromFile(cb);
     }
 }

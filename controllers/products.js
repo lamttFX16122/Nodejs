@@ -11,7 +11,6 @@ exports.getAddProduct = (req, res, next) => {
 
 exports.postAddProduct = (req, res) => {
     const product = new productModel(req.body.title);
-    console.log('Controller: ' + JSON.stringify(product))
     product.save();
     res.redirect("/");
 }
