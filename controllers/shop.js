@@ -19,7 +19,6 @@ exports.getProduct = (req, res, next) => {
             path: '/product'
         })
     })
-
 };
 
 exports.getIndex = (req, res, next) => {
@@ -38,6 +37,12 @@ exports.getCart = (req, res, next) => {
         pageTitle: 'Your Cart'
     });
 };
+
+exports.postCart = (req, res, next) => {
+    const id = req.body.productId;
+    console.log(id);
+    res.redirect('/cart');
+}
 
 exports.getOrders = (req, res, next) => {
     res.render('shop/orders', {
