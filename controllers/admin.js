@@ -1,12 +1,14 @@
+const { redirect } = require('express/lib/response');
 const Product = require('../models/product');
 
 exports.getAddProduct = (req, res, next) => {
     res.render('admin/edit-product', {
         pageTitle: 'Add Product',
         path: '/admin/add-product',
-        // formsCSS: true,
-        // productCSS: true,
-        // activeAddProduct: true
+        editing: false
+            // formsCSS: true,
+            // productCSS: true,
+            // activeAddProduct: true
     });
 };
 
@@ -22,15 +24,23 @@ exports.postAddProduct = (req, res, next) => {
 
 
 exports.getEditProduct = (req, res, next) => {
-    const editMode = req.query.edit;
-    if (editMode !== 'true') {
+    const editMode = req.query.edit == 'true' ? true : false;
+    const id = req.params.productId; //123
+
+    if (!editMode) {
         return res.redirect('/');
     }
-    res.render('admin/edit-product', {
-        pageTitle: 'Edit Product',
-        path: '/admin/edit-product',
-        editing: editMode
-    });
+    Product.findById(id, product => {
+        res.render('admin/edit-product', {
+            pageTitle: 'Edit Product',
+            path: '/admin/edit-product',
+            editing: editMode,
+            product: product
+        });
+    })
+
+
+
 };
 
 exports.getProducts = (req, res, next) => {
