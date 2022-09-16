@@ -1,5 +1,5 @@
 const path = require('path');
-
+const db = require('./util/database');
 const express = require('express');
 const bodyParser = require('body-parser');
 
@@ -15,6 +15,10 @@ const shopRoutes = require('./routes/shop');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+// database 
+db.execute('SELECT * FROM Products');
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
