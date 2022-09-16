@@ -18,7 +18,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 // database 
-db.execute('SELECT * FROM Products').then().catch();
+db.execute('SELECT * FROM Products')
+    .then(result => {
+        console.log(result);
+    })
+    .catch(err => {
+        console.log('ERR', err);
+    });
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
