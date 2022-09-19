@@ -40,8 +40,8 @@ exports.getEditProduct = (req, res, next) => {
     if (!editMode) {
         return res.redirect('/');
     }
-    Product.findById(id)
-        .then(([rows, fileContent]) => {
+    Product.findByPk(id)
+        .then((rows) => {
             res.render('admin/edit-product', {
                 pageTitle: 'Edit Product',
                 path: '/admin/edit-product',
@@ -61,9 +61,21 @@ exports.postEditProduct = (req, res, next) => {
     const updatedImgUrl = req.body.imageUrl;
     const updatedPrice = req.body.price;
     const updatedDescription = req.body.description;
-    const product = new Product(id, updatedTitle, updatedImgUrl, updatedPrice, updatedDescription);
-    product.save();
-    res.redirect('/admin/products');
+    Product.findByPk(id)
+        .then((product) => {
+            product.title = updatedTitle;
+            product.price = updatedPrice;
+            product.imageUrl = updatedImgUrl;
+            product.description = updatedDescription;
+            product.save();
+        })
+        .then((value) => {
+            console.log('Updated Product')
+            res.redirect('/admin/products');
+        })
+        .catch(err => console.log(err))
+        // product.save();
+
 }
 
 exports.getProducts = (req, res, next) => {
