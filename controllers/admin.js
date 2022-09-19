@@ -34,14 +34,19 @@ exports.getEditProduct = (req, res, next) => {
     if (!editMode) {
         return res.redirect('/');
     }
-    Product.findById(id, product => {
-        res.render('admin/edit-product', {
-            pageTitle: 'Edit Product',
-            path: '/admin/edit-product',
-            editing: editMode,
-            product: product
-        });
-    })
+    Product.findById(id)
+        .then(([rows, fileContent]) => {
+            res.render('admin/edit-product', {
+                pageTitle: 'Edit Product',
+                path: '/admin/edit-product',
+                editing: editMode,
+                product: rows
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+
 };
 
 exports.postEditProduct = (req, res, next) => {
