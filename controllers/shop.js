@@ -91,15 +91,22 @@ exports.postCart = (req, res, next) => {
 }
 
 exports.getOrders = (req, res, next) => {
-    res.render('shop/orders', {
-        path: '/orders',
-        pageTitle: 'Your Orders'
-    });
+    req.user.getOrders({ include: ['products'] })
+        .then(orders => {
+            res.render('shop/orders', {
+                path: '/orders',
+                pageTitle: 'Your Orders',
+                orders: orders
+            });
+        })
+        .catch(err => console.log(err));
 };
 
 exports.postOrders = (req, res, next) => {
+    let fetchCart;
     req.user.getCart()
         .then(cart => {
+            fetchCart = cart;
             return cart.getProducts();
         })
         .then(products => {
@@ -111,6 +118,9 @@ exports.postOrders = (req, res, next) => {
                     }))
                 })
                 .catch(err => console.log(err));
+        })
+        .then(result => {
+            return fetchCart.setProducts(null);
         })
         .then(result => {
             res.redirect('/orders')
