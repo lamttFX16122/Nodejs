@@ -58,8 +58,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 //         app.listen(3000);
 //     }).catch(err => console.log(err));
 
-// app.use('/admin', adminRoutes);
-// app.use(shopRoutes);
+app.use('/admin', adminRoutes);
+app.use(shopRoutes);
 
 app.use(errorController.get404);
 mongoConnect((client) => {
