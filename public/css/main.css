@@ -204,3 +204,11 @@ form {
         display: none;
     }
 }
+
+.product-img {
+    height: 20rem;
+}
+
+.product-img img {
+    height: 100%;
+}
