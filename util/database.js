@@ -17,13 +17,21 @@
 //=====================================
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
-const url = 'mongodb+srv://thanhlam:thanhlam@cluster0.hatavqh.mongodb.net/?retryWrites=true&w=majority';
+const url = 'mongodb+srv://thanhlam:thanhlam@cluster0.hatavqh.mongodb.net/shop?retryWrites=true&w=majority';
+let _db;
 const mongoConnect = cb => {
     MongoClient.connect(url)
         .then(connected => {
             console.log('Connected');
             cb(connected);
+            _db = connected.db();
         })
         .catch(err => console.log(err));
 }
-module.exports = mongoConnect;
+const getDb = () => {
+    if (_db)
+        return _db;
+    throw 'No database found!';
+}
+exports.mongoConnect = mongoConnect;
+exports.getDb = getDb;
