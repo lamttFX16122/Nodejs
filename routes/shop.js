@@ -10,15 +10,15 @@ router.get('/', shopController.getIndex);
 
 router.get('/products', shopController.getProducts);
 
-router.get('/products/:id', shopController.getProduct);
+// router.get('/products/:id', shopController.getProduct);
 
-router.get('/cart', shopController.getCart);
-router.post('/cart', shopController.postCart);
+// router.get('/cart', shopController.getCart);
+// router.post('/cart', shopController.postCart);
 
-router.get('/orders', shopController.getOrders);
+// router.get('/orders', shopController.getOrders);
 
-router.post('/create-order', shopController.postOrders);
+// router.post('/create-order', shopController.postOrders);
 
-router.get('/checkout', shopController.getCheckout);
-router.post('/cart-delete-item', shopController.cartDeleteItem);
+// router.get('/checkout', shopController.getCheckout);
+// router.post('/cart-delete-item', shopController.cartDeleteItem);
 module.exports = router;
