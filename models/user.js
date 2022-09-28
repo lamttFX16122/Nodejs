@@ -66,5 +66,13 @@ class User {
         const db = getDb();
         return db.collection('users').findOne({ _id: new ObjectId(id) });
     }
+
+    deleteProductCart(id) {
+        const db = getDb();
+        const updatedDelete = this.cart.items.filter(i => {
+            return id.toString() !== i.productId.toString();
+        })
+        return db.collection('users').updateOne({ _id: this._id }, { $set: { cart: { items: updatedDelete } } })
+    }
 }
 module.exports = User;

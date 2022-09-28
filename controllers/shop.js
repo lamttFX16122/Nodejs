@@ -132,18 +132,22 @@ exports.postCart = (req, res, next) => {
 //         pageTitle: 'Checkout'
 //     });
 // };
-// exports.cartDeleteItem = (req, res, next) => {
-//     const id = req.body.productId;
-//     req.user.getCart()
-//         .then(cart => {
-//             return cart.getProducts({ where: { id: id } })
-//         })
-//         .then(products => {
-//             const product = products[0];
-//             return product.cartItem.destroy();
-//         })
-//         .then(result => {
-//             res.redirect('/cart');
-//         })
-//         .catch(err => console.log(err))
-// }
+exports.cartDeleteItem = (req, res, next) => {
+    const id = req.body.productId;
+    req.user.deleteProductCart(id)
+        .then(result => {
+            return res.redirect('/cart');
+        })
+        .catch(err => console.log(err));
+    // .then(cart => {
+    //         return cart.getProducts({ where: { id: id } })
+    //     })
+    //     .then(products => {
+    //         const product = products[0];
+    //         return product.cartItem.destroy();
+    //     })
+    //     .then(result => {
+    //         res.redirect('/cart');
+    //     })
+    //     .catch(err => console.log(err))
+}
