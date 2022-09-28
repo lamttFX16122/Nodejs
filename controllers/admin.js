@@ -6,9 +6,6 @@ exports.getAddProduct = (req, res, next) => {
         pageTitle: 'Add Product',
         path: '/admin/add-product',
         editing: false
-            // formsCSS: true,
-            // productCSS: true,
-            // activeAddProduct: true
     });
 };
 
@@ -21,7 +18,9 @@ exports.postAddProduct = (req, res, next) => {
         title,
         price,
         imageUrl,
-        description
+        description,
+        null,
+        req.user._id
     );
     product.save().then((result) => {
         if (this.id)

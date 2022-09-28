@@ -1,4 +1,5 @@
-const ObjectId = require('mongodb').ObjectId();
+const mongoDb = require('mongodb');
+const ObjectId = mongoDb.ObjectId;
 const getDb = require('../util/database').getDb;
 class User {
     constructor(username, email) {
@@ -12,7 +13,7 @@ class User {
     }
     static findUserById(id) {
         const db = getDb();
-        return db.ObjectId('users').findOne({ _id: new ObjectId(id) });
+        return db.collection('users').findOne({ _id: new ObjectId(id) });
     }
 }
 module.exports = User;
