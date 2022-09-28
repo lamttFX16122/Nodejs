@@ -15,14 +15,14 @@ class User {
     }
 
     addToCart(product) {
-        const updatedCart = {
+        let updatedCart = {
             items: [{
-                ...product,
+                productId: new ObjectId(product.id),
                 quantity: 1
             }]
         };
         const db = getDb();
-        return db.collection('users').updateOne({ _id: new ObjectId(this.id) }, { $set: { cart: updatedCart } });
+        return db.collection('users').updateOne({ _id: new ObjectId(this._id) }, { $set: { cart: updatedCart } });
     }
     static findUserById(id) {
         const db = getDb();
