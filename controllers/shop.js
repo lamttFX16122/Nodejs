@@ -57,7 +57,7 @@ exports.postCart = (req, res, next) => {
             return req.user.addToCart(product);
         })
         .then(result => {
-            console.log(result);
+            return res.redirect('/cart');
         })
         .catch(err => console.log(err));
     // let fetchCart;
@@ -68,7 +68,7 @@ exports.postCart = (req, res, next) => {
     //         return cart.getProducts({ where: { id: id } })
     //     })
     //     .then(products => {
-    //         let product;
+    //         let producte;
     //         if (products.length > 0) {
     //             product = products[0];
     //         }
