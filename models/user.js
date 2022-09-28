@@ -54,13 +54,13 @@ class User {
                     }
                 })
             })
-            // .then(result => {
-            //     console.log("=============================================================")
-            //     console.log('result', result)
-            // })
             .catch(err => {
                 console.log(err);
             })
+    }
+    getOrder() {
+        const db = getDb();
+        return db.collection('oders').find({ 'user._id': new ObjectId(this._id) }).toArray();
     }
     addOrder() {
         const db = getDb();
