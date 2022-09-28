@@ -1,5 +1,6 @@
 const Product = require('../models/product');
-
+const mongodb = require('mongodb')
+const ObjectId = mongodb.ObjectId;
 exports.getAddProduct = (req, res, next) => {
     res.render('admin/edit-product', {
         pageTitle: 'Add Product',
@@ -19,8 +20,8 @@ exports.postAddProduct = (req, res, next) => {
     const product = new Product(
         title,
         price,
-        description,
         imageUrl,
+        description,
         null
     );
     product.save().then((result) => {
@@ -60,23 +61,14 @@ exports.postEditProduct = (req, res, next) => {
     const updatedImgUrl = req.body.imageUrl;
     const updatedPrice = req.body.price;
     const updatedDescription = req.body.description;
-    Product.fetchById(id)
-        .then((product) => {
-            product.title = updatedTitle;
-            product.price = updatedPrice;
-            product.imageUrl = updatedImgUrl;
-            product.description = updatedDescription;
-            product._id = id;
-            // return product.save();
-            console.log('PRL : ', product)
-        })
+
+
+    const product = new Product(updatedTitle, updatedPrice, updatedImgUrl, updatedDescription, new ObjectId(id))
+    product.save()
         .then((value) => {
-            console.log('vaLueee: ', value)
             res.redirect('/admin/products');
         })
         .catch(err => console.log(err))
-        // product.save();
-
 }
 
 exports.getProducts = (req, res, next) => {
