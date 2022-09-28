@@ -6,14 +6,12 @@ class Product {
         this.price = price;
         this.imageUrl = imageUrl;
         this.description = description;
-        this._id = new mongoDb.ObjectId(id)
+        this._id = !id ? null : new mongoDb.ObjectId(id)
     }
-
     save() {
         const db = getDb();
         let dbOb;
         if (this._id) {
-            console.log('THIS: ', this)
             dbOb = db.collection('products').updateOne({ _id: this._id }, { $set: this });
         } else {
             dbOb = db.collection('products').insertOne(this);
@@ -37,6 +35,14 @@ class Product {
             .next()
             .then(product => {
                 return product;
+            })
+            .catch(err => console.log(err));
+    }
+    static deleteById(id) {
+        const db = getDb();
+        return db.collection('products').deleteOne({ _id: new mongoDb.ObjectId(id) })
+            .then(result => {
+                console.log('Deleted');
             })
             .catch(err => console.log(err));
     }
