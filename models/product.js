@@ -19,7 +19,8 @@ const productSchema = new Schema({
     },
     userId: {
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     }
 
 });

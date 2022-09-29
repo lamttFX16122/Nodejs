@@ -37,13 +37,13 @@ exports.getIndex = (req, res, next) => {
         .catch(err => console.log(err))
 };
 
-exports.getCart = (req, res, next) => {
-    req.user.getCart()
+exports.getCart = async(req, res, next) => {
+    await req.user.populate({ path: 'cart.items.productId' })
         .then(products => {
             res.render('shop/cart', {
                 path: '/cart',
                 pageTitle: 'Your Cart',
-                products: products
+                products: products.cart.items
             });
         }).catch(err => console.log(err));
 };
