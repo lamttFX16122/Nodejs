@@ -1,5 +1,6 @@
 const Product = require('../models/product');
 const Order = require('../models/order');
+const user = require('../models/user');
 // const Order = require('../models/order');
 // const Cart = require('../models/cart');
 // const cartItem = require('../models/cart-item');
@@ -88,7 +89,7 @@ exports.postCart = (req, res, next) => {
 }
 
 exports.getOrders = (req, res, next) => {
-    req.user.getOrder()
+    Order.find({ 'user.userId': req.user._id })
         .then(orders => {
             console.log(orders)
             res.render('shop/orders', {
