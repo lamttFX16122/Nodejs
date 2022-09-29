@@ -68,6 +68,3 @@ mongoose.connect(url)
         app.listen(3000);
     })
     .catch(err => console.log(err))
-    // mongoConnect(() => {
-    //     app.listen(3000);
-    // });
