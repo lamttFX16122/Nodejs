@@ -4,6 +4,8 @@ const path = require('path');
 const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
+const session = require('express-session');
+
 
 const errorController = require('./controllers/error');
 
@@ -20,6 +22,12 @@ const loginRoutes = require('./routes/auth');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+    secret: 'my secret',
+    resave: false, // đặt lại session (renew) cho mỗi iu cầu
+    seveUninitialized: false //đánh dấu conenect SID 
+}))
+
 
 app.use((req, res, next) => {
     User.findById('63354c2d0b8d2c0c3a5e22e2')
