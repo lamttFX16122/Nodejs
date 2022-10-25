@@ -84,17 +84,6 @@ app.use(loginRoutes);
 app.use(errorController.get404);
 
 mongoose.connect(uri)
-User.findOne()
-    .then(user => {
-        if (!user) {
-            const user = new User({
-                username: 'Max',
-                email: 'max@test.com',
-                cart: {}
-            })
-            user.save();
-        }
-    })
     .then(result => {
         app.listen(3000);
     })

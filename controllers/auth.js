@@ -1,3 +1,4 @@
+const { redirect } = require('express/lib/response');
 const User = require('../models/user');
 exports.getLogin = (req, res, next) => {
     return res.render('auth/login', {
@@ -24,4 +25,36 @@ exports.postLogout = (req, res, next) => {
         console.log(err);
         res.redirect('/');
     })
+}
+
+exports.getSignUp = (req, res, next) => {
+    return res.render('auth/signup', {
+        pageTitle: 'Sign Up',
+        path: '/signup',
+        isAuthenticated: req.session.isLoggedIn
+    })
+}
+
+exports.postSignUp = (req, res, next) => {
+    const email = req.body.email;
+    const pw = req.body.password;
+    const username = req.body.username;
+    const confirm = req.body.confirm;
+    User.findOne({ email: email })
+        .then(user => {
+            if (user) {
+                return res.redirect('/signup');
+            }
+            const newUser = new User({
+                email: email,
+                username: username,
+                password: pw,
+                cart: { items: [] }
+            })
+            return newUser.save();
+        })
+        .then(result => {
+            res.redirect('/login');
+        })
+        .catch(err => console.log(err));
 }
