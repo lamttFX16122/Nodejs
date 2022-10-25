@@ -1,4 +1,5 @@
-const { redirect } = require('express/lib/response');
+const bcryptjs = require('bcryptjs');
+
 const User = require('../models/user');
 exports.getLogin = (req, res, next) => {
     return res.render('auth/login', {
@@ -45,10 +46,13 @@ exports.postSignUp = (req, res, next) => {
             if (user) {
                 return res.redirect('/signup');
             }
+            return bcryptjs.hash(pw, 12)
+        })
+        .then(hashPw => {
             const newUser = new User({
                 email: email,
                 username: username,
-                password: pw,
+                password: hashPw,
                 cart: { items: [] }
             })
             return newUser.save();
