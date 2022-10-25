@@ -35,6 +35,8 @@ form {
     height: 100%;
     display: none;
     align-items: center;
+    width: 100%;
+    justify-content: space-between;
 }
 
 .main-header__item-list {
@@ -245,3 +247,10 @@ form {
     border: 1px solid #00695c;
     color: #00695c;
 }
+
+
+/* .main-header__item-list {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+} */
