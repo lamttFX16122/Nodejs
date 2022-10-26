@@ -1,6 +1,5 @@
 const path = require('path');
 
-// const mongoConnect = require('./util/database').mongoConnect;
 const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -13,13 +12,12 @@ const errorController = require('./controllers/error');
 const User = require('./models/user');
 const uri = 'mongodb+srv://thanhlam:thanhlam@cluster0.hatavqh.mongodb.net/shop?retryWrites=true&w=majority';
 
+const csrfProtection = csrf();
+const app = express();
 const store = new MongoDBSession({
     uri: uri,
     collection: 'sessions'
 })
-const app = express();
-
-const csrfProtection = csrf();
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
@@ -52,32 +50,13 @@ app.use((req, res, next) => {
         .catch(err => console.log(err));
 })
 
-// Product.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
-// User.hasMany(Product);
+app.use((req, res, next) => {
 
-// User.hasOne(Cart);
-// Cart.belongsTo(User);
-// Cart.belongsToMany(Product, { through: CartItem });
-// Product.belongsToMany(Cart, { through: CartItem });
-// Order.belongsTo(User);
-// User.hasMany(Order);
-// Order.belongsToMany(Product, { through: OrderItem });
+    res.locals.isAuthenticated = req.session.isLoggedIn;
+    res.locals.csrfToken = req.csrfToken();
+    next();
+})
 
-// sequelize.sync()
-//     .then((result) => {
-//         return User.findByPk(1)
-
-//     }).then(user => {
-//         if (!user) {
-//             return User.create({ name: 'Max', email: 'test@test.com' })
-//         }
-//         return user;
-//     })
-//     .then(user => {
-//         return user.createCart();
-//     }).then(cart => {
-//         app.listen(3000);
-//     }).catch(err => console.log(err));
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
