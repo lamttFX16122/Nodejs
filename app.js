@@ -6,6 +6,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const MongoDBSession = require('connect-mongodb-session')(session);
+const csrf = require('csurf');
 
 const errorController = require('./controllers/error');
 
@@ -18,7 +19,7 @@ const store = new MongoDBSession({
 })
 const app = express();
 
-
+const csrfProtection = csrf();
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
@@ -37,6 +38,7 @@ app.use(session({
     store: store
 }))
 
+app.use(csrfProtection);
 
 app.use((req, res, next) => {
     if (!req.session.user) {
