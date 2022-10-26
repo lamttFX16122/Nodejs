@@ -4,7 +4,7 @@ const User = require('../models/user');
 exports.getLogin = (req, res, next) => {
     let message = req.flash('errLogin');
     if (message.length > 0) {
-        message = mes[0];
+        message = message[0];
     } else {
         message = null;
     }
@@ -50,9 +50,16 @@ exports.postLogout = (req, res, next) => {
 }
 
 exports.getSignUp = (req, res, next) => {
+    let message = req.flash('errLogin');
+    if (message.length > 0) {
+        message = message[0];
+    } else {
+        message = null;
+    }
     return res.render('auth/signup', {
         pageTitle: 'Sign Up',
-        path: '/signup'
+        path: '/signup',
+        errMes: message
     })
 }
 
@@ -64,6 +71,7 @@ exports.postSignUp = (req, res, next) => {
     User.findOne({ email: email })
         .then(user => {
             if (user) {
+                req.flash('errLogin', 'Email exists already, please pick a different one');
                 return res.redirect('/signup');
             }
             return bcryptjs.hash(pw, 12)
