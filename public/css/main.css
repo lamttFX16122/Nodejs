@@ -266,9 +266,18 @@ form {
     color: #00695c;
 }
 
+.user-message {
+    margin: auto;
+    width: 30rem;
+    border: 1px solid #4771fa;
+    padding: 0.5rem;
+    border-radius: 3px;
+    background: #b9c9ff;
+    text-align: center;
+}
 
-/* .main-header__item-list {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-} */
+.user-message--error {
+    border-color: red;
+    background: rgb(255, 176, 176);
+    color: red;
+}

@@ -1,17 +1,24 @@
 const bcryptjs = require('bcryptjs');
-
 const User = require('../models/user');
+
 exports.getLogin = (req, res, next) => {
+    let mes = req.flash('errLogin');
+    if (mes.length > 0) {
+        mes = mes[0];
+    } else {
+        mes = null;
+    }
     return res.render('auth/login', {
         pageTitle: 'Login',
         path: '/login',
-        isAuthenticated: false
+        errMes: mes
     })
 }
 exports.postLogin = (req, res, next) => {
     User.findOne({ email: req.body.email })
         .then(user => {
             if (!user) {
+                req.flash('errLogin', 'Invalid email');
                 return res.redirect('/login');
             }
             bcryptjs.compare(req.body.password, user.password)
@@ -24,6 +31,7 @@ exports.postLogin = (req, res, next) => {
                             res.redirect('/');
                         })
                     }
+                    req.flash('errLogin', 'Invalid password');
                     res.redirect('/login');
                 })
                 .catch(err => {
@@ -44,8 +52,7 @@ exports.postLogout = (req, res, next) => {
 exports.getSignUp = (req, res, next) => {
     return res.render('auth/signup', {
         pageTitle: 'Sign Up',
-        path: '/signup',
-        isAuthenticated: false
+        path: '/signup'
     })
 }
 
