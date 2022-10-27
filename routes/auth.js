@@ -20,7 +20,13 @@ router.post('/signup', [
     }),
     body('password', 'Please enter password with only numbers and text and at least 5 characters')
     .isLength({ min: 5 })
-    .isAlphanumeric()
+    .isAlphanumeric(),
+    body('confirm').custom((value, { req }) => {
+        if (value !== req.body.password) {
+            throw new Error('Password have to match!');
+        }
+        return true;
+    })
 ], login.postSignUp);
 
 module.exports = router;
