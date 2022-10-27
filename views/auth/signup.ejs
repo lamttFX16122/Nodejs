@@ -15,7 +15,7 @@
                         <form class="product-form" action="/signup" method="POST" novalidate>
                             <div class="form-control">
                                 <label for="email">E-Mail</label>
-                                <input type="email" name="email" id="email" value="<%=oldDoc.email%>">
+                                <input type="email" class="<%=validationError.find(e=>e.param==='email')? 'invalid' : ''%>" name="email" id="email" value="<%=oldDoc.email%>">
                             </div>
                             <div class="form-control">
                                 <label for="username">User Name</label>
@@ -23,11 +23,11 @@
                             </div>
                             <div class="form-control">
                                 <label for="password">Password</label>
-                                <input type="password" name="password" id="password" value="<%=oldDoc.password%>">
+                                <input type="password" class="<%=validationError.find(e=>e.param==='password')? 'invalid' : ''%>" name="password" id="password" value="<%=oldDoc.password%>">
                             </div>
                             <div class="form-control">
                                 <label for="confirm">Confirm Password</label>
-                                <input type="password" name="confirm" id="confirm" value="<%=oldDoc.confirm%>">
+                                <input type="password" class="<%=validationError.find(e=>e.param==='confirm')? 'invalid' : ''%>" name="confirm" id="confirm" value="<%=oldDoc.confirm%>">
                             </div>
                             <input type="hidden" name="_csrf" value="<%=csrfToken%>">
                             <button class="btn" type="submit">Signup</button>

@@ -66,7 +66,8 @@ exports.getSignUp = (req, res, next) => {
             username: '',
             password: '',
             confirm: ''
-        }
+        },
+        validationError: []
     })
 }
 
@@ -77,7 +78,6 @@ exports.postSignUp = (req, res, next) => {
     const confirm = req.body.confirm;
     const error = validationResult(req);
     if (!error.isEmpty()) {
-
         return res.status(422).render('auth/signup', {
             pageTitle: 'Sign Up',
             path: '/signup',
@@ -87,7 +87,8 @@ exports.postSignUp = (req, res, next) => {
                 username: username,
                 password: pw,
                 confirm: confirm
-            }
+            },
+            validationError: error.array()
         })
     }
     bcryptjs.hash(pw, 12)
