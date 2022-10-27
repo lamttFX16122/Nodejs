@@ -78,26 +78,18 @@ exports.postSignUp = (req, res, next) => {
             errMes: error.array()[0].msg
         })
     }
-    User.findOne({ email: email })
-        .then(user => {
-            if (user) {
-                req.flash('errLogin', 'Email exists already, please pick a different one');
-                return res.redirect('/signup');
-            }
-            return bcryptjs.hash(pw, 12)
-                .then(hashPw => {
-                    const newUser = new User({
-                        email: email,
-                        username: username,
-                        password: hashPw,
-                        cart: { items: [] }
-                    })
-                    return newUser.save();
-                })
-                .then(result => {
-                    res.redirect('/login');
-                })
+    bcryptjs.hash(pw, 12)
+        .then(hashPw => {
+            const newUser = new User({
+                email: email,
+                username: username,
+                password: hashPw,
+                cart: { items: [] }
+            })
+            return newUser.save();
+        })
+        .then(result => {
+            res.redirect('/login');
         })
 
-    .catch(err => console.log(err));
 }
