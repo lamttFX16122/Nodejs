@@ -6,8 +6,15 @@ const User = require('../models/user');
 
 router.get('/login', login.getLogin);
 router.post('/login',
-    check('email').isEmail().withMessage('Please enter a valid email'),
-    body('password', 'Password has to be valid').isLength({ min: 5 }).isAlphanumeric(), login.postLogin);
+    check('email')
+    .isEmail()
+    .withMessage('Please enter a valid email')
+    .normalizeEmail(),
+    body('password', 'Password has to be valid')
+    .isLength({ min: 5 })
+    .isAlphanumeric()
+    .trim(),
+    login.postLogin);
 router.post('/logout', login.postLogout);
 
 router.get('/signup', login.getSignUp);
@@ -22,16 +29,18 @@ router.post('/signup', [
                     return Promise.reject('Email exists already, please pick a different one');
                 }
             })
-    }),
+    })
+    .normalizeEmail(),
     body('password', 'Please enter password with only numbers and text and at least 5 characters')
     .isLength({ min: 5 })
-    .isAlphanumeric(),
+    .isAlphanumeric()
+    .trim(),
     body('confirm').custom((value, { req }) => {
         if (value !== req.body.password) {
             throw new Error('Password have to match!');
         }
         return true;
-    })
+    }).trim()
 ], login.postSignUp);
 
 module.exports = router;
