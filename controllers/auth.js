@@ -60,7 +60,13 @@ exports.getSignUp = (req, res, next) => {
     return res.render('auth/signup', {
         pageTitle: 'Sign Up',
         path: '/signup',
-        errMes: message
+        errMes: message,
+        oldDoc: {
+            email: '',
+            username: '',
+            password: '',
+            confirm: ''
+        }
     })
 }
 
@@ -75,7 +81,13 @@ exports.postSignUp = (req, res, next) => {
         return res.status(422).render('auth/signup', {
             pageTitle: 'Sign Up',
             path: '/signup',
-            errMes: error.array()[0].msg
+            errMes: error.array()[0].msg,
+            oldDoc: {
+                email: email,
+                username: username,
+                password: pw,
+                confirm: confirm
+            }
         })
     }
     bcryptjs.hash(pw, 12)
