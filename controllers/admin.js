@@ -69,7 +69,6 @@ exports.getEditProduct = (req, res, next) => {
 
     Product.findById(id)
         .then(product => {
-
             res.render('admin/edit-product', {
                 pageTitle: 'Edit Product',
                 path: '/admin/edit-product',
@@ -77,7 +76,6 @@ exports.getEditProduct = (req, res, next) => {
                 errMes: '',
                 product: product,
                 validationError: []
-
             });
         })
         .catch((err) => {
@@ -128,7 +126,6 @@ exports.postEditProduct = (req, res, next) => {
 
 exports.getProducts = (req, res, next) => {
     Product.find()
-        // .populate('userId')
         .then(products => {
             res.render('admin/products', {
                 prods: products,
