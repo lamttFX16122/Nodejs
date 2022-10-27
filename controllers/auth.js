@@ -71,11 +71,11 @@ exports.postSignUp = (req, res, next) => {
     const confirm = req.body.confirm;
     const error = validationResult(req);
     if (!error.isEmpty()) {
-        console.log(error);
+
         return res.status(422).render('auth/signup', {
             pageTitle: 'Sign Up',
             path: '/signup',
-            errMes: error.array()
+            errMes: error.array()[0].msg
         })
     }
     User.findOne({ email: email })

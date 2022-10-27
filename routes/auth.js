@@ -8,6 +8,6 @@ router.post('/login', login.postLogin);
 router.post('/logout', login.postLogout);
 
 router.get('/signup', login.getSignUp);
-router.post('/signup', check('email').isEmail(), login.postSignUp);
+router.post('/signup', check('email').isEmail().withMessage("Please enter a valid email"), login.postSignUp);
 
 module.exports = router;
