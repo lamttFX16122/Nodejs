@@ -4,13 +4,18 @@ const user = require('../models/user');
 
 exports.getProducts = (req, res, next) => {
     Product.find().then((products) => {
-        res.render('shop/product-list', {
-            prods: products,
-            pageTitle: 'All Products',
-            path: '/products'
+            res.render('shop/product-list', {
+                prods: products,
+                pageTitle: 'All Products',
+                path: '/products'
 
+            });
+        })
+        .catch(err => {
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);
         });
-    }).catch(err => console.log(err))
 };
 
 exports.getProduct = (req, res, next) => {
@@ -23,7 +28,12 @@ exports.getProduct = (req, res, next) => {
                 path: '/product'
 
             })
-        }).catch(err => console.log(err));
+        })
+        .catch(err => {
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);
+        });
 };
 
 exports.getIndex = (req, res, next) => {
@@ -35,7 +45,11 @@ exports.getIndex = (req, res, next) => {
                 path: '/'
             });
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);
+        });
 };
 
 exports.getCart = async(req, res, next) => {
@@ -47,7 +61,12 @@ exports.getCart = async(req, res, next) => {
                 products: products.cart.items
 
             });
-        }).catch(err => console.log(err));
+        })
+        .catch(err => {
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);
+        });
 };
 
 exports.postCart = (req, res, next) => {
@@ -59,7 +78,11 @@ exports.postCart = (req, res, next) => {
         .then(result => {
             return res.redirect('/cart');
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);
+        });
     // let fetchCart;
     // let newQuantity = 1;
     // req.user.getCart()
@@ -99,7 +122,11 @@ exports.getOrders = (req, res, next) => {
 
             });
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);
+        });
 };
 
 exports.postOrders = (req, res, next) => {
@@ -126,7 +153,11 @@ exports.postOrders = (req, res, next) => {
         .then(() => {
             res.redirect('/orders') //('/orders')
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);
+        });
 }
 
 // exports.getCheckout = (req, res, next) => {
@@ -141,6 +172,10 @@ exports.cartDeleteItem = (req, res, next) => {
         .then(result => {
             return res.redirect('/cart');
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);
+        });
 
 }
