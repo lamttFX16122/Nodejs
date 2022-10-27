@@ -1,3 +1,4 @@
+const { validationResult } = require('express-validator/check')
 const Product = require('../models/product');
 const mongodb = require('mongodb')
     // const ObjectId = mongodb.ObjectId;
@@ -5,7 +6,15 @@ exports.getAddProduct = (req, res, next) => {
     res.render('admin/edit-product', {
         pageTitle: 'Add Product',
         path: '/admin/add-product',
-        editing: false
+        editing: false,
+        errMes: '',
+        product: {
+            title: '',
+            price: '',
+            imageUrl: '',
+            description: ''
+        },
+        validationError: []
 
     });
 };
@@ -15,6 +24,26 @@ exports.postAddProduct = (req, res, next) => {
     const imageUrl = req.body.imageUrl;
     const price = req.body.price;
     const description = req.body.description;
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        let mesErr = '';
+        errors.array().forEach(er => {
+            mesErr += `- ${er.msg} \n`;
+        })
+        return res.render('admin/edit-product', {
+            pageTitle: 'Add Product',
+            path: '/admin/add-product',
+            editing: false,
+            errMes: mesErr,
+            product: {
+                title: title,
+                price: price,
+                imageUrl: imageUrl,
+                description: description
+            },
+            validationError: errors.array()
+        });
+    }
     const product = new Product({
         title: title,
         price: price,
@@ -40,11 +69,14 @@ exports.getEditProduct = (req, res, next) => {
 
     Product.findById(id)
         .then(product => {
+
             res.render('admin/edit-product', {
                 pageTitle: 'Edit Product',
                 path: '/admin/edit-product',
                 editing: editMode,
-                product: product
+                errMes: '',
+                product: product,
+                validationError: []
 
             });
         })
@@ -60,6 +92,27 @@ exports.postEditProduct = (req, res, next) => {
     const updatedImgUrl = req.body.imageUrl;
     const updatedPrice = req.body.price;
     const updatedDescription = req.body.description;
+
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        let mesErr = '';
+        errors.array().forEach(er => {
+            mesErr += `- ${er.msg} \n`;
+        })
+        return res.render('admin/edit-product', {
+            pageTitle: 'Add Product',
+            path: '/admin/add-product',
+            editing: false,
+            errMes: mesErr,
+            product: {
+                title: updatedTitle,
+                price: updatedPrice,
+                imageUrl: updatedImgUrl,
+                description: updatedDescription
+            },
+            validationError: errors.array()
+        });
+    }
     // const product = new Product(updatedTitle, updatedPrice, updatedImgUrl, updatedDescription, new ObjectId(id))
     Product.findById(id).then(product => {
             product.title = updatedTitle;
