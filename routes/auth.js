@@ -5,7 +5,9 @@ const login = require('../controllers/auth');
 const User = require('../models/user');
 
 router.get('/login', login.getLogin);
-router.post('/login', login.postLogin);
+router.post('/login',
+    check('email').isEmail().withMessage('Please enter a valid email'),
+    body('password', 'Password has to be valid').isLength({ min: 5 }).isAlphanumeric(), login.postLogin);
 router.post('/logout', login.postLogout);
 
 router.get('/signup', login.getSignUp);

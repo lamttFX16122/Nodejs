@@ -12,15 +12,43 @@ exports.getLogin = (req, res, next) => {
     return res.render('auth/login', {
         pageTitle: 'Login',
         path: '/login',
-        errMes: message
+        errMes: message,
+        oldDoc: {
+            email: '',
+            password: ''
+        },
+        validationError: []
     })
 }
 exports.postLogin = (req, res, next) => {
+    const error = validationResult(req);
+    if (!error.isEmpty()) {
+        return res.status(422).render('auth/login', {
+            pageTitle: 'Login',
+            path: '/login',
+            errMes: error.array()[0].msg,
+            oldDoc: {
+                email: req.body.email,
+                password: req.body.password
+            },
+            validationError: error.array()
+        })
+    }
     User.findOne({ email: req.body.email })
         .then(user => {
             if (!user) {
-                req.flash('errLogin', 'Invalid email');
-                return res.redirect('/login');
+
+                req.flash('errLogin', 'Email is not exist');
+                return res.status(422).render('auth/login', {
+                    pageTitle: 'Login',
+                    path: '/login',
+                    errMes: 'Invalid Email or Password',
+                    oldDoc: {
+                        email: req.body.email,
+                        password: req.body.password
+                    },
+                    validationError: []
+                })
             }
             bcryptjs.compare(req.body.password, user.password)
                 .then(doMatch => {
@@ -33,7 +61,16 @@ exports.postLogin = (req, res, next) => {
                         })
                     }
                     req.flash('errLogin', 'Invalid password');
-                    res.redirect('/login');
+                    return res.status(422).render('auth/login', {
+                        pageTitle: 'Login',
+                        path: '/login',
+                        errMes: 'Invalid Email or Password',
+                        oldDoc: {
+                            email: req.body.email,
+                            password: req.body.password
+                        },
+                        validationError: []
+                    })
                 })
                 .catch(err => {
                     console.log(err)
