@@ -183,14 +183,16 @@ exports.cartDeleteItem = (req, res, next) => {
 }
 
 //Get invoice
-exports.getInvoice = (req, res, next) => {
+exports.getInvoice = async(req, res, next) => {
     const orderId = req.params.orderId;
     const invoiceName = 'invoice-' + orderId + '.pdf';
     const invoicePath = path.join('data', 'invoices', invoiceName);
-    fs.readFile(invoicePath, (err, data) => {
+    await fs.readFile(invoicePath, (err, data) => {
         if (err) {
             next(err);
         }
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `inline; filename=${invoiceName}`);
         res.send(data);
     })
 }
