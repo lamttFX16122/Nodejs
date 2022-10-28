@@ -199,21 +199,25 @@ exports.getInvoice = (req, res, next) => {
             const pdfDoc = new PDFDocument();
             pdfDoc.pipe(fs.createWriteStream(invoicePath));
             pdfDoc.pipe(res);
-            pdfDoc.text("Hello world");
+            pdfDoc.font('Times-Bold').fontSize(26).text("Invoice", {
+                underline: true,
+                align: 'left'
+            });
+            pdfDoc.font('Times-Roman').fontSize(15).text(`==============================`, {
+                align: 'left'
+            });
+            let total = 0;
+            order.products.forEach((item, index) => {
+                total += item.quantity * item.product.price;
+                pdfDoc.font('Times-Roman').fontSize(15).text(`${index+1}. ${item.product.title} x ${item.quantity} - $${item.product.price} >>== $${item.quantity * item.product.price}`);
+            })
+            pdfDoc.font('Times-Roman').fontSize(15).text(`==============================`, {
+                align: 'left'
+            });
+            pdfDoc.font('Times-Bold').fontSize(20).text(`Total: $${total}`);
+
             pdfDoc.end();
 
-            // fs.readFile(invoicePath, (err, data) => {
-            //     if (err) {
-            //         next(err);
-            //     }
-            //     res.setHeader('Content-Type', 'application/pdf');
-            //     res.setHeader('Content-Disposition', `inline; filename=${invoiceName}`);
-            //     res.send(data);
-            // })
-            // const file = fs.createReadStream(invoicePath);
-            // res.setHeader('Content-Type', 'application/pdf');
-            // res.setHeader('Content-Disposition', `inline; filename=${invoiceName}`);
-            // file.pipe(res);
         })
         .catch(err => next(err));
 
