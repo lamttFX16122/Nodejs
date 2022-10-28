@@ -13,9 +13,13 @@ const errorController = require('./controllers/error');
 
 const User = require('./models/user');
 const uri = 'mongodb+srv://thanhlam:thanhlam@cluster0.hatavqh.mongodb.net/shop?retryWrites=true&w=majority';
+const adminRoutes = require('./routes/admin');
+const shopRoutes = require('./routes/shop');
+const loginRoutes = require('./routes/auth');
 
 const csrfProtection = csrf();
 const app = express();
+
 const store = new MongoDBSession({
     uri: uri,
     collection: 'sessions'
@@ -41,9 +45,7 @@ app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 
-const adminRoutes = require('./routes/admin');
-const shopRoutes = require('./routes/shop');
-const loginRoutes = require('./routes/auth');
+
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
