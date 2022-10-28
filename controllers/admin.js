@@ -1,6 +1,5 @@
 const { validationResult } = require('express-validator/check')
 const Product = require('../models/product');
-const mongoose = require('mongoose');
 // const ObjectId = mongodb.ObjectId;
 exports.getAddProduct = (req, res, next) => {
     res.render('admin/edit-product', {
@@ -113,6 +112,20 @@ exports.postEditProduct = (req, res, next) => {
     const updatedImgUrl = req.file;
     const updatedPrice = req.body.price;
     const updatedDescription = req.body.description;
+    // if (!updatedImgUrl) {
+    //     return res.render('admin/edit-product', {
+    //         pageTitle: 'Edit Product',
+    //         path: '/admin/edit-product',
+    //         editing: false,
+    //         errMes: 'Attached file is not an image',
+    //         product: {
+    //             title: title,
+    //             price: price,
+    //             description: description
+    //         },
+    //         validationError: []
+    //     });
+    // }
 
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
