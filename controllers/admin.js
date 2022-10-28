@@ -11,7 +11,7 @@ exports.getAddProduct = (req, res, next) => {
         product: {
             title: '',
             price: '',
-            imageUrl: '',
+            image: '',
             description: ''
         },
         validationError: []
@@ -21,9 +21,11 @@ exports.getAddProduct = (req, res, next) => {
 
 exports.postAddProduct = (req, res, next) => {
     const title = req.body.title;
-    const imageUrl = req.body.image;
+    const imageUrl = req.file;
+    console.log(imageUrl)
     const price = req.body.price;
     const description = req.body.description;
+    // const imageUrl = image.path;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let mesErr = '';
@@ -45,7 +47,7 @@ exports.postAddProduct = (req, res, next) => {
         });
     }
     const product = new Product({
-        _id: new mongoose.Types.ObjectId('63354c4b4788bc5122efb345'),
+        // _id: new mongoose.Types.ObjectId('63354c4b4788bc5122efb345'),
         title: title,
         price: price,
         imageUrl: imageUrl,

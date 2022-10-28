@@ -21,6 +21,15 @@ const store = new MongoDBSession({
     collection: 'sessions'
 })
 
+const file_Store = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, 'images')
+    },
+    filename: function(req, file, cb) {
+        cb(null, file.fieldname + '-' + file.originalname);
+    }
+})
+
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
@@ -30,7 +39,8 @@ const shopRoutes = require('./routes/shop');
 const loginRoutes = require('./routes/auth');
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(multer({ dest: 'images' }).single('image'));
+
+app.use(multer({ storage: file_Store }).single('image'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
@@ -60,7 +70,6 @@ app.use((req, res, next) => {
 })
 
 app.use((req, res, next) => {
-
     res.locals.isAuthenticated = req.session.isLoggedIn;
     res.locals.csrfToken = req.csrfToken();
     next();
