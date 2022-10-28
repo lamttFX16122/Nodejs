@@ -175,7 +175,6 @@ exports.getProducts = (req, res, next) => {
                 prods: products,
                 pageTitle: 'Admin Products',
                 path: '/admin/products'
-
             });
         })
         .catch(err => {
