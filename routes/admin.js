@@ -17,7 +17,6 @@ router.get('/products', isAuth, adminController.getProducts);
 // /admin/add-product => POST
 router.post('/add-product', isAuth, [
     body('title', 'Title must be more than 3 characters').isLength({ min: 3 }).trim(),
-    body('imageUrl', 'Url unvalid').isURL(),
     body('price', 'price unvalid').isFloat(),
     body('description', 'description must be greater than 3 and les than 100 characters').isLength({ min: 3, max: 200 }).trim()
 ], adminController.postAddProduct);
