@@ -21,12 +21,25 @@ exports.getAddProduct = (req, res, next) => {
 
 exports.postAddProduct = (req, res, next) => {
     const title = req.body.title;
-    const imageUrl = req.file;
-    console.log(imageUrl)
+    const image = req.file;
     const price = req.body.price;
     const description = req.body.description;
-    // const imageUrl = image.path;
+    if (!image) {
+        return res.render('admin/edit-product', {
+            pageTitle: 'Add Product',
+            path: '/admin/add-product',
+            editing: false,
+            errMes: 'Attached file is not an image',
+            product: {
+                title: title,
+                price: price,
+                description: description
+            },
+            validationError: []
+        });
+    }
     let errors = validationResult(req);
+    let imageUrl = image.path;
     if (!errors.isEmpty()) {
         let mesErr = '';
         errors.array().forEach(er => {
@@ -97,7 +110,7 @@ exports.getEditProduct = (req, res, next) => {
 exports.postEditProduct = (req, res, next) => {
     const id = req.body.productId;
     const updatedTitle = req.body.title;
-    const updatedImgUrl = req.body.imageUrl;
+    const updatedImgUrl = req.file;
     const updatedPrice = req.body.price;
     const updatedDescription = req.body.description;
 
@@ -115,7 +128,6 @@ exports.postEditProduct = (req, res, next) => {
             product: {
                 title: updatedTitle,
                 price: updatedPrice,
-                imageUrl: updatedImgUrl,
                 description: updatedDescription
             },
             validationError: errors.array()
@@ -125,7 +137,10 @@ exports.postEditProduct = (req, res, next) => {
     Product.findById(id).then(product => {
             product.title = updatedTitle;
             product.price = updatedPrice;
-            product.imageUrl = updatedImgUrl;
+            if (updatedImgUrl) {
+                product.imageUrl = updatedImgUrl.path;
+            }
+
             product.description = updatedDescription;
             product.save()
         }).then((value) => {
