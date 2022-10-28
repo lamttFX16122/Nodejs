@@ -17,7 +17,7 @@
                                         <%order.products.forEach((value) => {%>
                                             <li class="orders__products-item">
                                                 <%=value.product.title%> (
-                                                    <%=value.quantity%>)
+                                                    <%=value.quantity%>) - <a href="/orders/<%=order._id%>">Invoices</a>
                                             </li>
                                             <%})%>
                                     </ul>
