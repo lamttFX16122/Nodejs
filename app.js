@@ -30,6 +30,13 @@ const file_Store = multer.diskStorage({
     }
 })
 
+const file_Fil = (req, file, cb) => {
+    if (file.mimetype === 'image/png' || file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg') {
+        cb(null, true)
+    } else {
+        cb(null, false)
+    }
+}
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
@@ -40,7 +47,7 @@ const loginRoutes = require('./routes/auth');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(multer({ storage: file_Store }).single('image'));
+app.use(multer({ storage: file_Store, fileFilter: file_Fil }).single('image'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
