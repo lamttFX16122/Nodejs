@@ -26,10 +26,10 @@ const store = new MongoDBSession({
 })
 
 const file_Store = multer.diskStorage({
-    destination: function(req, file, cb) {
+    destination: function (req, file, cb) {
         cb(null, 'images')
     },
-    filename: function(req, file, cb) {
+    filename: function (req, file, cb) {
         cb(null, file.fieldname + '-' + file.originalname);
     }
 })
